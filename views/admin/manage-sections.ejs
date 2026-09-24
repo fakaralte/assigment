@@ -1,0 +1,37 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Manage Sections</h1>
+
+<form action="/admin/sections" method="POST" class="grid grid-cols-3 gap-3 mb-6 bg-white p-4 rounded shadow">
+  <input type="text" name="name" placeholder="Section Name (e.g. CSE-A)" required class="border p-2 rounded">
+  <input type="text" name="department" placeholder="Department" required class="border p-2 rounded">
+  <input type="number" name="semester" placeholder="Semester" required class="border p-2 rounded">
+  <button type="submit" class="col-span-3 bg-blue-600 text-white py-2 rounded">Create Section</button>
+</form>
+
+<% sections.forEach(section => { %>
+  <div class="bg-white p-4 rounded shadow mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="font-semibold"><%= section.name %> — <%= section.department %>, Sem <%= section.semester %></h2>
+      <form action="/admin/sections/<%= section._id %>/delete" method="POST">
+        <button class="text-red-600 text-sm">Delete Section</button>
+      </form>
+    </div>
+
+    <p class="text-sm text-gray-600 mb-2">
+      Students: <%= section.students.map(s => s.name).join(', ') || 'None yet' %>
+    </p>
+
+    <form action="/admin/sections/<%= section._id %>/add-student" method="POST" class="flex gap-2">
+      <select name="studentId" required class="border p-2 rounded flex-1">
+        <option value="">Add a student...</option>
+        <% students.forEach(st => { %>
+          <option value="<%= st._id %>"><%= st.name %> (<%= st.rollNo %>)</option>
+        <% }) %>
+      </select>
+      <button type="submit" class="bg-blue-600 text-white px-3 py-2 rounded text-sm">Add</button>
+    </form>
+  </div>
+<% }) %>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,33 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Low Attendance Report</h1>
+
+<form method="GET" class="flex gap-2 mb-4">
+  <input type="number" name="threshold" value="<%= threshold %>" class="border p-2 rounded w-24">
+  <button type="submit" class="bg-blue-600 text-white px-3 py-2 rounded">Apply Threshold</button>
+</form>
+
+<table class="w-full border-collapse">
+  <thead>
+    <tr class="bg-gray-100 text-left">
+      <th class="p-2">Name</th>
+      <th class="p-2">Roll No</th>
+      <th class="p-2">Attendance %</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% report.forEach(r => { %>
+      <tr class="border-b">
+        <td class="p-2"><%= r.student.name %></td>
+        <td class="p-2"><%= r.student.rollNo %></td>
+        <td class="p-2">
+          <span class="px-2 py-1 rounded-full text-xs font-medium <%= r.percentage < 60 ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800' %>">
+            <%= r.percentage.toFixed(1) %>%
+          </span>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('../partials/footer') %>

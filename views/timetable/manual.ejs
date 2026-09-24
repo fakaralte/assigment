@@ -1,0 +1,39 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Add Timetable Slot (Manual)</h1>
+
+<form action="/timetable/manual" method="POST" class="grid grid-cols-3 gap-3 bg-white p-4 rounded shadow">
+  <select name="section" required class="border p-2 rounded">
+    <option value="">Section</option>
+    <% sections.forEach(s => { %><option value="<%= s._id %>"><%= s.name %></option><% }) %>
+  </select>
+
+  <select name="subject" required class="border p-2 rounded">
+    <option value="">Subject</option>
+    <% subjects.forEach(s => { %><option value="<%= s._id %>"><%= s.name %></option><% }) %>
+  </select>
+
+  <select name="faculty" required class="border p-2 rounded">
+    <option value="">Faculty</option>
+    <% staff.forEach(s => { %><option value="<%= s._id %>"><%= s.name %></option><% }) %>
+  </select>
+
+  <select name="classroom" required class="border p-2 rounded">
+    <option value="">Classroom</option>
+    <% classrooms.forEach(c => { %><option value="<%= c._id %>"><%= c.name %></option><% }) %>
+  </select>
+
+  <select name="day" required class="border p-2 rounded">
+    <% DAYS.forEach(d => { %><option value="<%= d %>"><%= d %></option><% }) %>
+  </select>
+
+  <select name="period" required class="border p-2 rounded">
+    <% PERIODS.forEach(p => { %><option value="<%= p %>">Period <%= p %></option><% }) %>
+  </select>
+
+  <button type="submit" class="col-span-3 bg-blue-600 text-white py-2 rounded">Add Slot</button>
+</form>
+
+<p class="text-sm text-gray-500 mt-4">Conflicts (double-booked faculty, room, or section) are rejected automatically with an explanation above.</p>
+
+<%- include('../partials/footer') %>

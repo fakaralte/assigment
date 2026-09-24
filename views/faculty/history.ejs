@@ -1,0 +1,26 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">My Attendance History</h1>
+
+<table class="w-full border-collapse">
+  <thead>
+    <tr class="bg-gray-100 text-left">
+      <th class="p-2">Date</th>
+      <th class="p-2">Subject</th>
+      <th class="p-2">Section</th>
+      <th class="p-2">Period</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% sessions.forEach(s => { %>
+      <tr class="border-b">
+        <td class="p-2"><%= s.date.toDateString() %></td>
+        <td class="p-2"><%= s.subject.name %></td>
+        <td class="p-2"><%= s.section.name %></td>
+        <td class="p-2"><%= s.period %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('../partials/footer') %>

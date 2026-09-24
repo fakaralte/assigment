@@ -1,0 +1,50 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Timetable</h1>
+
+<form method="GET" class="mb-4">
+  <select name="sectionId" onchange="this.form.submit()" class="border p-2 rounded">
+    <option value="">Select a section</option>
+    <% sections.forEach(s => { %>
+      <option value="<%= s._id %>" <%= sectionId === String(s._id) ? 'selected' : '' %>><%= s.name %></option>
+    <% }) %>
+  </select>
+</form>
+
+<% if (grid) { %>
+  <h2 class="font-semibold mb-2"><%= selectedSection.name %></h2>
+  <div class="overflow-x-auto">
+    <table class="border-collapse bg-white rounded shadow w-full text-sm">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="p-2 border">Period</th>
+          <% DAYS.forEach(day => { %><th class="p-2 border"><%= day %></th><% }) %>
+        </tr>
+      </thead>
+      <tbody>
+        <% PERIODS.forEach(period => { %>
+          <tr>
+            <td class="p-2 border font-medium bg-gray-50">P<%= period %></td>
+            <% DAYS.forEach(day => { %>
+              <td class="p-2 border align-top">
+                <% const entry = grid[day][period]; %>
+                <% if (entry) { %>
+                  <p class="font-medium"><%= entry.subject.name %></p>
+                  <p class="text-xs text-gray-500"><%= entry.faculty.name %></p>
+                  <p class="text-xs text-gray-400"><%= entry.classroom.name %></p>
+                  <form action="/timetable/entry/<%= entry._id %>/delete" method="POST">
+                    <button class="text-red-600 text-xs mt-1">Remove</button>
+                  </form>
+                <% } else { %>
+                  <span class="text-gray-300">—</span>
+                <% } %>
+              </td>
+            <% }) %>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

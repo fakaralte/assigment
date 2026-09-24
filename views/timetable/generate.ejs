@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Auto-Generate Timetable</h1>
+
+<form action="/timetable/generate" method="POST" class="bg-white p-4 rounded shadow flex gap-3">
+  <select name="sectionId" required class="border p-2 rounded flex-1">
+    <option value="">Select Section</option>
+    <% sections.forEach(s => { %><option value="<%= s._id %>"><%= s.name %> — <%= s.department %>, Sem <%= s.semester %></option><% }) %>
+  </select>
+  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Generate</button>
+</form>
+
+<p class="text-sm text-gray-500 mt-4">
+  This regenerates the full timetable for the selected section, respecting faculty, room, and section conflicts.
+  Existing slots for that section are cleared and rebuilt. If a subject can't be fully scheduled (e.g. no free
+  teacher or room), you'll see exactly which subject and why.
+</p>
+
+<%- include('../partials/footer') %>

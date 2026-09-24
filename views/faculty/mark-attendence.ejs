@@ -1,0 +1,43 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Mark Attendance — <%= section.name %></h1>
+
+<form action="/faculty/mark" method="POST">
+  <input type="hidden" name="sectionId" value="<%= sectionId %>">
+  <input type="hidden" name="subjectId" value="<%= subjectId %>">
+  <input type="hidden" name="date" value="<%= date %>">
+  <input type="hidden" name="period" value="<%= period %>">
+
+  <table class="w-full border-collapse mb-4">
+    <thead>
+      <tr class="bg-gray-100 text-left">
+        <th class="p-2">Roll No</th>
+        <th class="p-2">Name</th>
+        <th class="p-2">Present</th>
+        <th class="p-2">Absent</th>
+        <th class="p-2">Late</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% students.forEach(s => { %>
+        <tr class="border-b">
+          <td class="p-2"><%= s.rollNo %></td>
+          <td class="p-2"><%= s.name %></td>
+          <td class="p-2 text-center">
+            <input type="radio" name="statuses[<%= s._id %>]" value="present" checked>
+          </td>
+          <td class="p-2 text-center">
+            <input type="radio" name="statuses[<%= s._id %>]" value="absent">
+          </td>
+          <td class="p-2 text-center">
+            <input type="radio" name="statuses[<%= s._id %>]" value="late">
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Submit Attendance</button>
+</form>
+
+<%- include('../partials/footer') %>

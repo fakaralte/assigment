@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Outstanding Dues Report</h1>
+
+<table class="w-full border-collapse bg-white rounded shadow">
+  <thead>
+    <tr class="bg-gray-100 text-left">
+      <th class="p-2">Student</th><th class="p-2">Fee Head</th><th class="p-2">Due Date</th><th class="p-2">Balance</th><th class="p-2">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% report.forEach(r => { %>
+      <tr class="border-b">
+        <td class="p-2"><%= r.student.name %> (<%= r.student.rollNo %>)</td>
+        <td class="p-2"><%= r.feeHead.name %></td>
+        <td class="p-2"><%= new Date(r.dueDate).toDateString() %></td>
+        <td class="p-2 font-medium">₹<%= r.balance %></td>
+        <td class="p-2">
+          <span class="px-2 py-1 rounded-full text-xs <%= r.overdue ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800' %>">
+            <%= r.overdue ? 'Overdue' : 'Pending' %>
+          </span>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('partials/footer') %>

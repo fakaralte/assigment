@@ -1,0 +1,43 @@
+<%- include('partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Fee Status — <%= student.name %> (<%= student.rollNo %>)</h1>
+
+<% assignmentData.forEach(({ assignment, installments, paid, balance }) => { %>
+  <div class="bg-white p-4 rounded shadow mb-4">
+    <div class="flex justify-between mb-2">
+      <h2 class="font-semibold"><%= assignment.feeHead.name %></h2>
+      <span class="<%= balance > 0 ? 'text-red-600' : 'text-green-600' %> font-medium">
+        Balance: ₹<%= balance %>
+      </span>
+    </div>
+    <p class="text-sm text-gray-500 mb-2">Total: ₹<%= assignment.totalAmount %> | Discount: ₹<%= assignment.discount %> | Paid: ₹<%= paid %></p>
+
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-gray-100 text-left">
+          <th class="p-2">Due Date</th><th class="p-2">Amount</th><th class="p-2">Status</th><th class="p-2"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% installments.forEach(inst => { %>
+          <tr class="border-b">
+            <td class="p-2"><%= inst.dueDate.toDateString() %></td>
+            <td class="p-2">₹<%= inst.amount %></td>
+            <td class="p-2">
+              <span class="px-2 py-1 rounded-full text-xs <%= inst.status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800' %>">
+                <%= inst.status %>
+              </span>
+            </td>
+            <td class="p-2">
+              <% if (inst.status !== 'paid') { %>
+            <a href="/fees/pay/<%= inst._id %>" class="text-blue-600 text-sm">Record Payment</a>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% }) %>
+
+<%- include('partials/footer') %>

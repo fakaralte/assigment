@@ -1,0 +1,31 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Mark Attendance</h1>
+
+<form action="/faculty/mark" method="GET" class="grid grid-cols-2 gap-4">
+  <select name="sectionId" required class="border p-2 rounded">
+    <option value="">Select Section</option>
+    <% sections.forEach(s => { %>
+      <option value="<%= s._id %>"><%= s.name %></option>
+    <% }) %>
+  </select>
+
+  <select name="subjectId" required class="border p-2 rounded">
+    <option value="">Select Subject</option>
+    <% subjects.forEach(s => { %>
+      <option value="<%= s._id %>"><%= s.name %></option>
+    <% }) %>
+  </select>
+
+  <input type="date" name="date" required class="border p-2 rounded">
+
+  <select name="period" required class="border p-2 rounded">
+    <% for (let p = 1; p <= 8; p++) { %>
+      <option value="<%= p %>">Period <%= p %></option>
+    <% } %>
+  </select>
+
+  <button type="submit" class="col-span-2 bg-blue-600 text-white py-2 rounded">Load Students</button>
+</form>
+
+<%- include('../partials/footer') %>

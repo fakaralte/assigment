@@ -1,0 +1,64 @@
+  </main>
+
+  <script>
+    // ---- Sidebar collapse (icon-only mode) ----
+    const body = document.body;
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    if (localStorage.getItem('sidebarCollapsed') === 'true') {
+      body.classList.add('sidebar-collapsed');
+    }
+    sidebarToggle?.addEventListener('click', () => {
+      body.classList.toggle('sidebar-collapsed');
+      localStorage.setItem('sidebarCollapsed', body.classList.contains('sidebar-collapsed'));
+    });
+
+    // ---- Dropdown sections ----
+    // Closed by default, EXCEPT the section whose link was just clicked (persisted across the page load it triggers)
+    const activeSectionKey = sessionStorage.getItem('activeSection');
+
+    document.querySelectorAll('.nav-section').forEach((section) => {
+      const key = section.dataset.key;
+      const toggle = section.querySelector('.nav-toggle');
+      const submenu = section.querySelector('.submenu');
+      const chevron = section.querySelector('.chevron');
+      const currentPath = window.location.pathname;
+
+      // Highlight the active link
+      section.querySelectorAll('a').forEach(a => {
+        const href = a.getAttribute('href');
+        if (href === currentPath) {
+          a.classList.add('bg-blue-50', 'text-blue-700', 'font-medium');
+        }
+        // When a submenu link is clicked, remember this section so it reopens after navigation
+        a.addEventListener('click', () => {
+          sessionStorage.setItem('activeSection', key);
+        });
+      });
+
+      // Open only the section that was just clicked into; everything else stays closed
+      if (key === activeSectionKey) {
+        submenu.style.maxHeight = submenu.scrollHeight + 'px';
+        chevron.classList.add('rotate-open');
+      } else {
+        submenu.style.maxHeight = '0px';
+      }
+
+      toggle.addEventListener('click', () => {
+        const isOpen = submenu.style.maxHeight && submenu.style.maxHeight !== '0px';
+
+        // Accordion: close every other section first
+        document.querySelectorAll('.nav-section .submenu').forEach(sm => { sm.style.maxHeight = '0px'; });
+        document.querySelectorAll('.nav-section .chevron').forEach(c => { c.classList.remove('rotate-open'); });
+
+        if (!isOpen) {
+          submenu.style.maxHeight = submenu.scrollHeight + 'px';
+          chevron.classList.add('rotate-open');
+          sessionStorage.setItem('activeSection', key);
+        } else {
+          sessionStorage.removeItem('activeSection');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

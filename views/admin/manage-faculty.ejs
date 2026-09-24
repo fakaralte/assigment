@@ -1,0 +1,58 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Manage Faculty</h1>
+
+<form action="/admin/faculty-list" method="POST" class="grid grid-cols-2 gap-3 mb-6 bg-white p-4 rounded shadow">
+  <input type="text" name="name" placeholder="Full Name" required class="border p-2 rounded">
+  <input type="text" name="employeeId" placeholder="Employee ID" required class="border p-2 rounded">
+  <input type="text" name="department" placeholder="Department" required class="border p-2 rounded">
+  <input type="email" name="email" placeholder="Email" required class="border p-2 rounded">
+  <input type="password" name="password" placeholder="Password" required class="border p-2 rounded">
+<select name="role" required class="border p-2 rounded">
+  <option value="faculty">Faculty</option>
+  <option value="hod">HOD</option>
+  <option value="admin">Admin</option>
+  <option value="accounts">Accounts Staff</option>
+</select>
+  <div class="col-span-2">
+    <p class="text-sm mb-1 text-gray-600">Subjects Taught (hold Ctrl/Cmd to select multiple)</p>
+    <select name="subjectsTaught" multiple class="border p-2 rounded w-full h-24">
+      <% subjects.forEach(sub => { %>
+        <option value="<%= sub._id %>"><%= sub.name %> (<%= sub.code %>)</option>
+      <% }) %>
+    </select>
+  </div>
+
+  <button type="submit" class="col-span-2 bg-blue-600 text-white py-2 rounded">Add Faculty</button>
+</form>
+
+<table class="w-full border-collapse bg-white rounded shadow">
+  <thead>
+    <tr class="bg-gray-100 text-left">
+      <th class="p-2">Name</th>
+      <th class="p-2">Employee ID</th>
+      <th class="p-2">Department</th>
+      <th class="p-2">Role</th>
+      <th class="p-2">Subjects</th>
+      <th class="p-2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% facultyList.forEach(f => { %>
+      <tr class="border-b">
+        <td class="p-2"><%= f.name %></td>
+        <td class="p-2"><%= f.employeeId %></td>
+        <td class="p-2"><%= f.department %></td>
+        <td class="p-2"><%= f.role %></td>
+        <td class="p-2"><%= f.subjectsTaught.map(s => s.code).join(', ') || '—' %></td>
+        <td class="p-2">
+          <form action="/admin/faculty-list/<%= f._id %>/delete" method="POST">
+            <button class="text-red-600 text-sm">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('../partials/footer') %>

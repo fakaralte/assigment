@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>College Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .chevron { transition: transform 0.15s ease; }
+    .rotate-open { transform: rotate(90deg); }
+    .sidebar-collapsed .label,
+    .sidebar-collapsed .chevron,
+    .sidebar-collapsed .submenu,
+    .sidebar-collapsed .brand-text { display: none !important; }
+    .sidebar-collapsed aside { width: 4.5rem !important; }
+    .submenu { overflow: hidden; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex">
+
+  <% if (user) { %>
+    <aside id="sidebar" class="w-64 bg-gray-50 shadow-md flex flex-col shrink-0 h-screen sticky top-0 transition-all duration-200">
+
+      <!-- Logo + collapse toggle -->
+      <div class="flex items-center justify-between px-4 py-4">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 rounded-xl bg-gray-900 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.42A12.083 12.083 0 0121 15.5v.5c0 2-4 3.5-9 3.5s-9-1.5-9-3.5v-.5a12.083 12.083 0 012.84-4.92L12 14z"/>
+            </svg>
+          </div>
+          <span class="brand-text font-bold text-sm">College Portal</span>
+        </div>
+        <button id="sidebarToggle" class="text-gray-400 hover:text-gray-700 shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="px-4 pb-2">
+        <p class="brand-text text-xs text-gray-500 truncate"><%= user.name %> · <%= user.role %></p>
+      </div>
+
+      <nav class="flex-1 px-2 py-2 space-y-1 text-sm overflow-y-auto">
+
+        <!-- Dashboard -->
+        <a href="/" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          <span class="label">Dashboard</span>
+        </a>
+
+        <% if (user.role === 'faculty' || user.role === 'hod') { %>
+          <div class="nav-section" data-key="attendance">
+            <button class="nav-toggle w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">
+              <span class="flex items-center gap-3">
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="label">Attendance</span>
+              </span>
+              <svg class="w-4 h-4 chevron text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+            <div class="submenu pl-11 space-y-1 mt-1">
+              <a href="/faculty" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Mark Attendance</a>
+              <a href="/faculty/history" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">My History</a>
+            </div>
+          </div>
+        <% } %>
+
+        <% if (user.role === 'admin' || user.role === 'hod') { %>
+          <div class="nav-section" data-key="attendance-admin">
+            <button class="nav-toggle w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">
+              <span class="flex items-center gap-3">
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a4 4 0 10-4-4"/>
+                </svg>
+                <span class="label">Attendance Admin</span>
+              </span>
+              <svg class="w-4 h-4 chevron text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+            <div class="submenu pl-11 space-y-1 mt-1">
+              <a href="/admin/students" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Students</a>
+              <a href="/admin/subjects" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Subjects</a>
+              <a href="/admin/sections" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Sections</a>
+              <a href="/admin/faculty-list" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Faculty</a>
+              <a href="/admin/low-attendance" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Low Attendance</a>
+              <a href="/admin/corrections" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Corrections</a>
+            </div>
+          </div>
+
+          <div class="nav-section" data-key="timetable">
+            <button class="nav-toggle w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">
+              <span class="flex items-center gap-3">
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span class="label">Timetable</span>
+              </span>
+              <svg class="w-4 h-4 chevron text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+            <div class="submenu pl-11 space-y-1 mt-1">
+              <a href="/timetable" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">View Timetable</a>
+              <a href="/timetable/generate" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Generate</a>
+              <a href="/timetable/manual" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Add Slot</a>
+              <a href="/timetable/classrooms" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Classrooms</a>
+            </div>
+          </div>
+        <% } %>
+
+        <% if (user.role === 'admin' || user.role === 'accounts') { %>
+          <div class="nav-section" data-key="fees">
+            <button class="nav-toggle w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-100 text-gray-700 font-medium">
+              <span class="flex items-center gap-3">
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/>
+                </svg>
+                <span class="label">Fees</span>
+              </span>
+              <svg class="w-4 h-4 chevron text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+            <div class="submenu pl-11 space-y-1 mt-1">
+              <a href="/fees/dashboard" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Dashboard</a>
+              <a href="/fees/fee-heads" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Fee Heads</a>
+              <a href="/fees/assign-fee" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Assign Fee</a>
+              <a href="/fees/reports/outstanding" class="block px-2 py-1.5 rounded hover:bg-blue-50 text-gray-600">Outstanding</a>
+            </div>
+          </div>
+        <% } %>
+
+      
+
+      </nav>
+
+      <div class="px-4 py-3 border-t">
+        <form action="/logout" method="POST">
+          <button class="flex items-center gap-3 text-red-600 text-sm w-full">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span class="label">Logout</span>
+          </button>
+        </form>
+      </div>
+    </aside>
+  <% } %>
+
+  <main class="flex-1 p-6 max-w-5xl">
+    <% if (success && success.length) { %>
+      <div class="bg-green-100 text-green-800 p-3 rounded mb-4"><%= success[0] %></div>
+    <% } %>
+    <% if (error && error.length) { %>
+      <div class="bg-red-100 text-red-800 p-3 rounded mb-4"><%= error[0] %></div>
+    <% } %>

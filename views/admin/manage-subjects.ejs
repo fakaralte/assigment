@@ -1,0 +1,40 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Manage Subjects</h1>
+
+<form action="/admin/subjects" method="POST" class="grid grid-cols-2 gap-3 mb-6 bg-white p-4 rounded shadow">
+  <input type="text" name="name" placeholder="Subject Name" required class="border p-2 rounded">
+  <input type="text" name="code" placeholder="Subject Code" required class="border p-2 rounded">
+  <input type="text" name="department" placeholder="Department" required class="border p-2 rounded">
+  <input type="number" name="semester" placeholder="Semester" required class="border p-2 rounded">
+  <button type="submit" class="col-span-2 bg-blue-600 text-white py-2 rounded">Add Subject</button>
+</form>
+
+<table class="w-full border-collapse bg-white rounded shadow">
+  <thead>
+    <tr class="bg-gray-100 text-left">
+      <th class="p-2">Code</th>
+      <th class="p-2">Name</th>
+      <th class="p-2">Department</th>
+      <th class="p-2">Semester</th>
+      <th class="p-2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% subjects.forEach(s => { %>
+      <tr class="border-b">
+        <td class="p-2"><%= s.code %></td>
+        <td class="p-2"><%= s.name %></td>
+        <td class="p-2"><%= s.department %></td>
+        <td class="p-2"><%= s.semester %></td>
+        <td class="p-2">
+          <form action="/admin/subjects/<%= s._id %>/delete" method="POST">
+            <button class="text-red-600 text-sm">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('../partials/footer') %>

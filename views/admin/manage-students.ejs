@@ -1,0 +1,48 @@
+<%- include('../partials/header') %>
+
+<h1 class="text-xl font-bold mb-4">Manage Students</h1>
+
+<form action="/admin/students" method="POST" class="grid grid-cols-2 gap-3 mb-6 bg-white p-4 rounded shadow">
+  <input type="text" name="name" placeholder="Full Name" required class="border p-2 rounded">
+  <input type="text" name="rollNo" placeholder="Roll No" required class="border p-2 rounded">
+  <input type="text" name="department" placeholder="Department" required class="border p-2 rounded">
+  <input type="text" name="batch" placeholder="Batch (e.g. 2023-2027)" required class="border p-2 rounded">
+  <select name="section" required class="border p-2 rounded">
+    <option value="">Select Section</option>
+    <% sections.forEach(s => { %>
+      <option value="<%= s._id %>"><%= s.name %></option>
+    <% }) %>
+  </select>
+  <input type="email" name="email" placeholder="Email" required class="border p-2 rounded">
+  <input type="text" name="phone" placeholder="Phone (optional)" class="border p-2 rounded">
+  <button type="submit" class="col-span-2 bg-blue-600 text-white py-2 rounded">Add Student</button>
+</form>
+
+<table class="w-full border-collapse bg-white rounded shadow">
+  <thead>
+    <tr class="bg-gray-100 text-left">
+      <th class="p-2">Roll No</th>
+      <th class="p-2">Name</th>
+      <th class="p-2">Section</th>
+      <th class="p-2">Department</th>
+      <th class="p-2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% students.forEach(s => { %>
+      <tr class="border-b">
+        <td class="p-2"><%= s.rollNo %></td>
+        <td class="p-2"><%= s.name %></td>
+        <td class="p-2"><%= s.section ? s.section.name : '—' %></td>
+        <td class="p-2"><%= s.department %></td>
+        <td class="p-2">
+          <form action="/admin/students/<%= s._id %>/delete" method="POST">
+            <button class="text-red-600 text-sm">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('../partials/footer') %>

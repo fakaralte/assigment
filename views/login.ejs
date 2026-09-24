@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Attendance Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+  <form action="/login" method="POST" class="bg-white p-8 rounded-lg shadow-md w-80">
+    <h1 class="text-xl font-bold mb-4">Attendance Portal</h1>
+    <% if (error && error.length) { %>
+      <p class="text-red-600 text-sm mb-3"><%= error[0] %></p>
+    <% } %>
+    <input type="email" name="email" placeholder="Email" required class="w-full border p-2 rounded mb-3">
+    <input type="password" name="password" placeholder="Password" required class="w-full border p-2 rounded mb-4">
+    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Login</button>
+  </form>
+</body>
+</html>
