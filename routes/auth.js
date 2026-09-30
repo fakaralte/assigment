@@ -4,8 +4,7 @@ const bcrypt = require('bcryptjs');
 const Staff = require('../models/Staff');
 
 router.get('/login', (req, res) => {
-  if (req.session.user) return res.redirect('/');
-  res.render('login');
+  res.redirect('/');
 });
 
 router.post('/login', async (req, res) => {

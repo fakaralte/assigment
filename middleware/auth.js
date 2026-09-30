@@ -1,5 +1,12 @@
 const requireLogin = (req, res, next) => {
-  if (!req.session.user) return res.redirect('/login');
+  // DEMO MODE: auto-login everyone as admin, no credentials needed
+  if (!req.session.user) {
+    req.session.user = {
+      id: process.env.DEMO_ADMIN_ID, // set this to a real Staff _id in your DB
+      name: 'Guest Admin',
+      role: 'admin',
+    };
+  }
   next();
 };
 
